@@ -10,8 +10,13 @@ import java.util.List;
  * @author Alex Ivchenko
  */
 public class Crawler {
-    private final FileCrawler fileCrawler = new FileCrawler();
-    private final ZipCrawler zipCrawler = new ZipCrawler();
+    private final FileCrawler fileCrawler;
+    private final ZipCrawler zipCrawler;
+
+    public Crawler(FileCrawler fileCrawler, ZipCrawler zipCrawler) {
+        this.fileCrawler = fileCrawler;
+        this.zipCrawler = zipCrawler;
+    }
 
     public List<DetectedURL> scan(File file) {
         List<DetectedURL> detected = new LinkedList<>();
@@ -19,7 +24,7 @@ public class Crawler {
             detected.addAll(scan(sub));
         }
         if (isZip(file)) {
-            detected.addAll(zipCrawler.craw(file));
+            detected.addAll(zipCrawler.crawl(file));
         }
         if (isXml(file)) {
             detected.addAll(fileCrawler.parse(file));
