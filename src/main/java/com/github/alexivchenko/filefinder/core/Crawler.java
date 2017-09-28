@@ -17,10 +17,10 @@ public class Crawler {
         this.zipCrawler = zipCrawler;
     }
 
-    public List<DetectedURL> scan(File file) {
+    public List<DetectedURL> crawl(File file) {
         List<DetectedURL> detected = new LinkedList<>();
         for (File sub: asDir(file)) {
-            detected.addAll(scan(sub));
+            detected.addAll(crawl(sub));
         }
         tryToGetAsZip(file).ifPresent(zipFile -> detected.addAll(zipCrawler.crawl(zipFile)));
         if (isXml(file)) {
