@@ -20,13 +20,12 @@ public class LoggedFileCrawler implements FileCrawler {
 
     @Override
     public List<DetectedURL> crawl(File file) throws ParseException {
-        log.info("parsing file: " + file.getAbsolutePath());
         try {
             List<DetectedURL> ret = delegate.crawl(file);
-            log.info("parsing " + file.getAbsolutePath() + " success");
+            log.info("crawling file: " + file.getAbsolutePath() + " success");
             return ret;
         } catch (Exception e) {
-            log.error("parsing failure", e);
+            log.error("crawling file: " + file.getAbsolutePath() + " failure", e);
             throw e;
         }
     }

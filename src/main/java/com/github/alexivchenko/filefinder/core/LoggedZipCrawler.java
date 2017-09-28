@@ -19,13 +19,12 @@ public class LoggedZipCrawler implements ZipCrawler {
 
     @Override
     public List<DetectedURL> crawl(File zip) throws ParseException {
-        log.info("crawl zip: " + zip.getAbsolutePath());
         try {
             List<DetectedURL> ret = delegate.crawl(zip);
-            log.info("crawling " + zip.getAbsolutePath() + " success");
+            log.info("crawling zip: " + zip.getAbsolutePath() + " success");
             return ret;
         } catch (Exception e) {
-            log.error("crawling failure", e);
+            log.error("crawling zip: "  + zip.getAbsolutePath() + " failure", e);
             throw e;
         }
     }
