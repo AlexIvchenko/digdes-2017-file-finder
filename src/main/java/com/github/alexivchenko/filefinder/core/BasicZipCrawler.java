@@ -23,13 +23,13 @@ public class BasicZipCrawler implements ZipCrawler {
     @Override
     public List<DetectedURL> crawl(File zip) throws ParseException {
         try {
-            return doCraw(zip);
+            return doCrawl(zip);
         } catch (IOException e) {
             throw new ParseException(e);
         }
     }
 
-    private List<DetectedURL> doCraw(File zip) throws IOException {
+    private List<DetectedURL> doCrawl(File zip) throws IOException {
         ZipInputStream zis = new ZipInputStream(new FileInputStream(zip));
         ZipEntry entry = zis.getNextEntry();
         List<DetectedURL> urls = new ArrayList<>();
