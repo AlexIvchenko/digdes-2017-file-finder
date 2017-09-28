@@ -3,8 +3,8 @@ package com.github.alexivchenko.filefinder.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.List;
+import java.util.zip.ZipFile;
 
 /**
  * @author Alex Ivchenko
@@ -18,13 +18,13 @@ public class LoggedZipCrawler implements ZipCrawler {
     }
 
     @Override
-    public List<DetectedURL> crawl(File zip) throws ParseException {
+    public List<DetectedURL> crawl(ZipFile zip) throws ParseException {
         try {
             List<DetectedURL> ret = delegate.crawl(zip);
-            log.info("crawling zip: " + zip.getAbsolutePath() + " success");
+            log.info("crawling zip: " + zip.getName() + " success");
             return ret;
         } catch (Exception e) {
-            log.error("crawling zip: "  + zip.getAbsolutePath() + " failure", e);
+            log.error("crawling zip: "  + zip.getName() + " failure", e);
             throw e;
         }
     }

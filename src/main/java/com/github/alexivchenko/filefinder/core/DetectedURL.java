@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.zip.ZipFile;
 
 /**
  * @author Alex Ivchenko
@@ -72,10 +73,11 @@ public final class DetectedURL {
         }
 
         @Override
-        public DetectedURL inZip(File zip, String pathInZip) {
+        public DetectedURL inZip(ZipFile zipFile, String pathInZip) {
             Objects.requireNonNull(pathInZip, "path in zip must be not null");
+            Objects.requireNonNull(zipFile, "zip file must be not null");
             this.zip = pathInZip;
-            return inFile(zip);
+            return new DetectedURL(url, zip, line, zipFile.getName());
         }
 
         @Override
@@ -99,7 +101,7 @@ public final class DetectedURL {
     }
 
     public interface FileStageBuilder {
-        DetectedURL inZip(File zip, String pathInZip);
+        DetectedURL inZip(ZipFile zip, String pathInZip);
         DetectedURL inFile(File file);
     }
 }

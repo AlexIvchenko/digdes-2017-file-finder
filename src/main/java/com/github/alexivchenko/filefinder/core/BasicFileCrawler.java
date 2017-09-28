@@ -78,7 +78,9 @@ public class BasicFileCrawler implements FileCrawler {
         public void characters(char[] ch, int start, int length) throws SAXException {
             String url = new String(ch, start, length);
             if (isURL(url)) {
-                urls.add(DetectedURL.builder().detected(url).inLine(locator.getLineNumber()));
+                urls.add(DetectedURL.builder()
+                        .detected(url)
+                        .inLine(locator.getLineNumber()));
             }
         }
 
