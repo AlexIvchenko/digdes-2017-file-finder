@@ -1,8 +1,8 @@
 package com.github.alexivchenko.filefinder.core;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import java.util.zip.ZipFile;
 
 /**
  * @author Alex Ivchenko
@@ -15,7 +15,7 @@ public class RobustZipCrawler implements ZipCrawler {
     }
 
     @Override
-    public List<DetectedURL> crawl(File zip) {
+    public List<DetectedURL> crawl(ZipFile zip) {
         try {
             return delegate.crawl(zip);
         } catch (ParseException e) {

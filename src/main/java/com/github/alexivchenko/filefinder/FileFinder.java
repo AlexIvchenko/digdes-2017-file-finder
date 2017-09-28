@@ -17,6 +17,6 @@ public class FileFinder {
     public static void main(final String... args) {
         System.out.print("Enter directory: ");
         String path = scanner.nextLine();
-        crawler.scan(new File(path)).forEach(System.out::println);
+        crawler.crawl(new File(path)).forEach(System.out::println);
     }
 }

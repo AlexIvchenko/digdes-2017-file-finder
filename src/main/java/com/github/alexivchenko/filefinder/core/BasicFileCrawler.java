@@ -31,7 +31,7 @@ public class BasicFileCrawler implements FileCrawler {
     }
 
     @Override
-    public List<DetectedURL> parse(File file) {
+    public List<DetectedURL> crawl(File file) {
         try {
             return doParse(file);
         } catch (FileNotFoundException e) {
@@ -40,7 +40,7 @@ public class BasicFileCrawler implements FileCrawler {
     }
 
     @Override
-    public List<DetectedURL.FileStageBuilder> parse(InputStream is) {
+    public List<DetectedURL.FileStageBuilder> crawl(InputStream is) {
         try {
             return doParse(is);
         } catch (SAXException | IOException e) {
@@ -49,7 +49,7 @@ public class BasicFileCrawler implements FileCrawler {
     }
 
     private List<DetectedURL> doParse(File file) throws FileNotFoundException {
-        return parse(new FileInputStream(file)).stream()
+        return crawl(new FileInputStream(file)).stream()
                 .map(fileStageBuilder -> fileStageBuilder.inFile(file))
                 .collect(Collectors.toList());
     }
@@ -78,7 +78,9 @@ public class BasicFileCrawler implements FileCrawler {
         public void characters(char[] ch, int start, int length) throws SAXException {
             String url = new String(ch, start, length);
             if (isURL(url)) {
-                urls.add(DetectedURL.builder().detected(url).inLine(locator.getLineNumber()));
+                urls.add(DetectedURL.builder()
+                        .detected(url)
+                        .inLine(locator.getLineNumber()));
             }
         }
 

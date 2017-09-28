@@ -19,23 +19,22 @@ public class LoggedFileCrawler implements FileCrawler {
     }
 
     @Override
-    public List<DetectedURL> parse(File file) throws ParseException {
-        log.info("parsing file: " + file.getAbsolutePath());
+    public List<DetectedURL> crawl(File file) throws ParseException {
         try {
-            List<DetectedURL> ret = delegate.parse(file);
-            log.info("parsing " + file.getAbsolutePath() + " success");
+            List<DetectedURL> ret = delegate.crawl(file);
+            log.info("crawling file: " + file.getAbsolutePath() + " success");
             return ret;
         } catch (Exception e) {
-            log.error("parsing failure", e);
+            log.error("crawling file: " + file.getAbsolutePath() + " failure", e);
             throw e;
         }
     }
 
     @Override
-    public List<DetectedURL.FileStageBuilder> parse(InputStream is) throws ParseException {
+    public List<DetectedURL.FileStageBuilder> crawl(InputStream is) throws ParseException {
         log.info("parsing input stream: " + is);
         try {
-            List<DetectedURL.FileStageBuilder> ret = delegate.parse(is);
+            List<DetectedURL.FileStageBuilder> ret = delegate.crawl(is);
             log.info("parsing success");
             return ret;
         } catch (Exception e) {

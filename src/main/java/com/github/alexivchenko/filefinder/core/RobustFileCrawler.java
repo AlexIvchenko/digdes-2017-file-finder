@@ -16,18 +16,18 @@ public class RobustFileCrawler implements FileCrawler {
     }
 
     @Override
-    public List<DetectedURL> parse(File file) {
+    public List<DetectedURL> crawl(File file) {
         try {
-            return delegate.parse(file);
+            return delegate.crawl(file);
         } catch (ParseException e) {
             return Collections.emptyList();
         }
     }
 
     @Override
-    public List<DetectedURL.FileStageBuilder> parse(InputStream is) {
+    public List<DetectedURL.FileStageBuilder> crawl(InputStream is) {
         try {
-            return delegate.parse(is);
+            return delegate.crawl(is);
         } catch (ParseException e) {
             return Collections.emptyList();
         }
