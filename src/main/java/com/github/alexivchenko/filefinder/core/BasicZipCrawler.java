@@ -37,7 +37,7 @@ public class BasicZipCrawler implements ZipCrawler {
             if (!entry.isDirectory()) {
                 String filename = entry.getName();
                 if (filename.endsWith(".xml")) {
-                    urls.addAll(fileCrawler.parse(new FakeClosedInputStream(zis))
+                    urls.addAll(fileCrawler.crawl(new FakeClosedInputStream(zis))
                             .stream()
                             .map(fileStageBuilder -> fileStageBuilder.inZip(zip, filename))
                             .collect(Collectors.toList()));

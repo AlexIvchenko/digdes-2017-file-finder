@@ -19,10 +19,10 @@ public class LoggedFileCrawler implements FileCrawler {
     }
 
     @Override
-    public List<DetectedURL> parse(File file) throws ParseException {
+    public List<DetectedURL> crawl(File file) throws ParseException {
         log.info("parsing file: " + file.getAbsolutePath());
         try {
-            List<DetectedURL> ret = delegate.parse(file);
+            List<DetectedURL> ret = delegate.crawl(file);
             log.info("parsing " + file.getAbsolutePath() + " success");
             return ret;
         } catch (Exception e) {
@@ -32,10 +32,10 @@ public class LoggedFileCrawler implements FileCrawler {
     }
 
     @Override
-    public List<DetectedURL.FileStageBuilder> parse(InputStream is) throws ParseException {
+    public List<DetectedURL.FileStageBuilder> crawl(InputStream is) throws ParseException {
         log.info("parsing input stream: " + is);
         try {
-            List<DetectedURL.FileStageBuilder> ret = delegate.parse(is);
+            List<DetectedURL.FileStageBuilder> ret = delegate.crawl(is);
             log.info("parsing success");
             return ret;
         } catch (Exception e) {

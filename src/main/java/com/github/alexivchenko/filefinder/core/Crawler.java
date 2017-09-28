@@ -27,7 +27,7 @@ public class Crawler {
             detected.addAll(zipCrawler.crawl(file));
         }
         if (isXml(file)) {
-            detected.addAll(fileCrawler.parse(file));
+            detected.addAll(fileCrawler.crawl(file));
         }
         return detected;
     }

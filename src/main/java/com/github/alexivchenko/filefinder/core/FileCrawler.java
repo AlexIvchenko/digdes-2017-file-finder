@@ -8,7 +8,7 @@ import java.util.List;
  * @author Alex Ivchenko
  */
 public interface FileCrawler {
-    List<DetectedURL> parse(File file) throws ParseException;
+    List<DetectedURL> crawl(File file) throws ParseException;
 
-    List<DetectedURL.FileStageBuilder> parse(InputStream is) throws ParseException;
+    List<DetectedURL.FileStageBuilder> crawl(InputStream is) throws ParseException;
 }
