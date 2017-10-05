@@ -1,6 +1,6 @@
 # digdes-2017-file-finder
 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
+[![license](https://img.shields.io/github/license/AlexIvchenko/digdes-2017-file-finder.svg)]()
 
 Test project to apply for educational Java-development course.
 The task is find all urls in xml files which can be contained in zip and subdirectories and print them
