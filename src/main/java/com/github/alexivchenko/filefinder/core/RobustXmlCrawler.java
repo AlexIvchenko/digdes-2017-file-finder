@@ -16,7 +16,7 @@ public class RobustXmlCrawler implements XmlCrawler {
     }
 
     @Override
-    public List<DetectedURL> crawl(File xml) {
+    public List<DetectedString> crawl(File xml) {
         try {
             return delegate.crawl(xml);
         } catch (ParseException e) {
@@ -25,7 +25,7 @@ public class RobustXmlCrawler implements XmlCrawler {
     }
 
     @Override
-    public List<DetectedURL.FileStageBuilder> crawl(InputStream is) {
+    public List<DetectedString.FileStageBuilder> crawl(InputStream is) {
         try {
             return delegate.crawl(is);
         } catch (ParseException e) {

@@ -10,6 +10,7 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -20,9 +21,9 @@ public class BasicXmlCrawler implements XmlCrawler {
     private final SAXParser parser;
     private final URLHandler handler;
 
-    public BasicXmlCrawler() {
+    public BasicXmlCrawler(Predicate<String> filter) {
         factory = SAXParserFactory.newInstance();
-        handler = new URLHandler();
+        handler = new URLHandler(filter);
         try {
             parser = factory.newSAXParser();
         } catch (ParserConfigurationException | SAXException e) {
@@ -31,7 +32,7 @@ public class BasicXmlCrawler implements XmlCrawler {
     }
 
     @Override
-    public List<DetectedURL> crawl(File xml) {
+    public List<DetectedString> crawl(File xml) {
         try {
             return doParse(xml);
         } catch (FileNotFoundException e) {
@@ -40,7 +41,7 @@ public class BasicXmlCrawler implements XmlCrawler {
     }
 
     @Override
-    public List<DetectedURL.FileStageBuilder> crawl(InputStream is) {
+    public List<DetectedString.FileStageBuilder> crawl(InputStream is) {
         try {
             return doParse(is);
         } catch (SAXException | IOException e) {
@@ -48,20 +49,25 @@ public class BasicXmlCrawler implements XmlCrawler {
         }
     }
 
-    private List<DetectedURL> doParse(File file) throws FileNotFoundException {
+    private List<DetectedString> doParse(File file) throws FileNotFoundException {
         return crawl(new FileInputStream(file)).stream()
                 .map(fileStageBuilder -> fileStageBuilder.inFile(file))
                 .collect(Collectors.toList());
     }
 
-    private List<DetectedURL.FileStageBuilder> doParse(InputStream is) throws IOException, SAXException {
+    private List<DetectedString.FileStageBuilder> doParse(InputStream is) throws IOException, SAXException {
         parser.parse(is, handler);
         return handler.urls;
     }
 
     private static class URLHandler extends DefaultHandler {
+        private final Predicate<String> filter;
         private Locator locator;
-        private List<DetectedURL.FileStageBuilder> urls;
+        private List<DetectedString.FileStageBuilder> urls;
+
+        private URLHandler(Predicate<String> filter) {
+            this.filter = filter;
+        }
 
         @Override
         public void startDocument() throws SAXException {
@@ -76,20 +82,12 @@ public class BasicXmlCrawler implements XmlCrawler {
 
         @Override
         public void characters(char[] ch, int start, int length) throws SAXException {
-            String url = new String(ch, start, length);
-            if (isURL(url)) {
-                urls.add(DetectedURL.builder()
-                        .detected(url)
+            String str = new String(ch, start, length);
+            if (filter.test(str)) {
+                urls.add(DetectedString.builder()
+                        .detected(str)
                         .inLine(locator.getLineNumber()));
             }
-        }
-
-        private boolean isURL(String str) {
-            return str.startsWith("http://") ||
-                    str.startsWith("https://") ||
-                    str.startsWith("ftp://") ||
-                    str.startsWith("mailto:") ||
-                    str.startsWith("file://");
         }
     }
 }

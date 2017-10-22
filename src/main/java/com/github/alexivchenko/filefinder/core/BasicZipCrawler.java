@@ -20,7 +20,7 @@ public class BasicZipCrawler implements ZipCrawler {
     }
 
     @Override
-    public List<DetectedURL> crawl(ZipFile zip) throws ParseException {
+    public List<DetectedString> crawl(ZipFile zip) throws ParseException {
         try {
             return doCrawl(zip);
         } catch (IOException e) {
@@ -28,18 +28,19 @@ public class BasicZipCrawler implements ZipCrawler {
         }
     }
 
-    private List<DetectedURL> doCrawl(ZipFile zip) throws IOException {
-        List<DetectedURL> urls = new ArrayList<>();
+    private List<DetectedString> doCrawl(ZipFile zip) throws IOException {
+        List<DetectedString> urls = new ArrayList<>();
         for (ZipEntry entry : zip.stream().collect(Collectors.toList())) {
             urls.addAll(crawlZipEntry(zip, entry));
         }
         return urls;
     }
 
-    private List<DetectedURL> crawlZipEntry(ZipFile zipFile, ZipEntry zipEntry) throws IOException {
+    private List<DetectedString> crawlZipEntry(ZipFile zipFile, ZipEntry zipEntry) throws IOException {
         if (!zipEntry.isDirectory()) {
             InputStream is = zipFile.getInputStream(zipEntry);
             String filename = zipEntry.getName();
+            // TODO invent something better
             if (filename.endsWith(".xml")) {
                 return (xmlCrawler.crawl(is)
                         .stream()

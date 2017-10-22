@@ -19,9 +19,9 @@ public class LoggedXmlCrawler implements XmlCrawler {
     }
 
     @Override
-    public List<DetectedURL> crawl(File xml) throws ParseException {
+    public List<DetectedString> crawl(File xml) throws ParseException {
         try {
-            List<DetectedURL> ret = delegate.crawl(xml);
+            List<DetectedString> ret = delegate.crawl(xml);
             log.info("crawling file: " + xml.getAbsolutePath() + " success");
             return ret;
         } catch (Exception e) {
@@ -31,10 +31,10 @@ public class LoggedXmlCrawler implements XmlCrawler {
     }
 
     @Override
-    public List<DetectedURL.FileStageBuilder> crawl(InputStream is) throws ParseException {
+    public List<DetectedString.FileStageBuilder> crawl(InputStream is) throws ParseException {
         log.info("parsing input stream: " + is);
         try {
-            List<DetectedURL.FileStageBuilder> ret = delegate.crawl(is);
+            List<DetectedString.FileStageBuilder> ret = delegate.crawl(is);
             log.info("parsing success");
             return ret;
         } catch (Exception e) {

@@ -15,7 +15,7 @@ public class RobustZipCrawler implements ZipCrawler {
     }
 
     @Override
-    public List<DetectedURL> crawl(ZipFile zip) {
+    public List<DetectedString> crawl(ZipFile zip) {
         try {
             return delegate.crawl(zip);
         } catch (ParseException e) {
