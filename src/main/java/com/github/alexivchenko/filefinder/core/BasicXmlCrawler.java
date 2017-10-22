@@ -15,25 +15,25 @@ import java.util.stream.Collectors;
 /**
  * @author Alex Ivchenko
  */
-public class BasicFileCrawler implements FileCrawler {
+public class BasicXmlCrawler implements XmlCrawler {
     private final SAXParserFactory factory;
     private final SAXParser parser;
     private final URLHandler handler;
 
-    public BasicFileCrawler() {
+    public BasicXmlCrawler() {
         factory = SAXParserFactory.newInstance();
         handler = new URLHandler();
         try {
             parser = factory.newSAXParser();
         } catch (ParserConfigurationException | SAXException e) {
-            throw new UnsupportedOperationException("cannot create " + BasicFileCrawler.class.getCanonicalName(), e);
+            throw new UnsupportedOperationException("cannot create " + BasicXmlCrawler.class.getCanonicalName(), e);
         }
     }
 
     @Override
-    public List<DetectedURL> crawl(File file) {
+    public List<DetectedURL> crawl(File xml) {
         try {
-            return doParse(file);
+            return doParse(xml);
         } catch (FileNotFoundException e) {
             throw new ParseException(e);
         }

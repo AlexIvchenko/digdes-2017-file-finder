@@ -13,10 +13,10 @@ import java.util.zip.ZipFile;
  * @author Alex Ivchenko
  */
 public class BasicZipCrawler implements ZipCrawler {
-    private final FileCrawler fileCrawler;
+    private final XmlCrawler xmlCrawler;
 
-    public BasicZipCrawler(FileCrawler fileCrawler) {
-        this.fileCrawler = fileCrawler;
+    public BasicZipCrawler(XmlCrawler xmlCrawler) {
+        this.xmlCrawler = xmlCrawler;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class BasicZipCrawler implements ZipCrawler {
             InputStream is = zipFile.getInputStream(zipEntry);
             String filename = zipEntry.getName();
             if (filename.endsWith(".xml")) {
-                return (fileCrawler.crawl(is)
+                return (xmlCrawler.crawl(is)
                         .stream()
                         .map(fileStageBuilder -> fileStageBuilder.inZip(zipFile, filename))
                         .collect(Collectors.toList()));

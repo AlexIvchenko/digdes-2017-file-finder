@@ -9,11 +9,11 @@ import java.util.zip.ZipFile;
  * @author Alex Ivchenko
  */
 public class Crawler {
-    private final FileCrawler fileCrawler;
+    private final XmlCrawler xmlCrawler;
     private final ZipCrawler zipCrawler;
 
-    public Crawler(FileCrawler fileCrawler, ZipCrawler zipCrawler) {
-        this.fileCrawler = fileCrawler;
+    public Crawler(XmlCrawler xmlCrawler, ZipCrawler zipCrawler) {
+        this.xmlCrawler = xmlCrawler;
         this.zipCrawler = zipCrawler;
     }
 
@@ -24,7 +24,7 @@ public class Crawler {
         }
         tryToGetAsZip(file).ifPresent(zipFile -> detected.addAll(zipCrawler.crawl(zipFile)));
         if (isXml(file)) {
-            detected.addAll(fileCrawler.crawl(file));
+            detected.addAll(xmlCrawler.crawl(file));
         }
         return detected;
     }

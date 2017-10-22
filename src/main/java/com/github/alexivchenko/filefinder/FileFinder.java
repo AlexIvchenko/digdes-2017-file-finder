@@ -10,9 +10,9 @@ import java.util.Scanner;
  */
 public class FileFinder {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final FileCrawler fileCrawler = new RobustFileCrawler(new LoggedFileCrawler(new BasicFileCrawler()));
-    private static final ZipCrawler zipCrawler = new RobustZipCrawler(new LoggedZipCrawler(new BasicZipCrawler(fileCrawler)));
-    private static final Crawler crawler = new Crawler(fileCrawler, zipCrawler);
+    private static final XmlCrawler XML_CRAWLER = new RobustXmlCrawler(new LoggedXmlCrawler(new BasicXmlCrawler()));
+    private static final ZipCrawler zipCrawler = new RobustZipCrawler(new LoggedZipCrawler(new BasicZipCrawler(XML_CRAWLER)));
+    private static final Crawler crawler = new Crawler(XML_CRAWLER, zipCrawler);
 
     public static void main(final String... args) {
         System.out.print("Enter directory: ");

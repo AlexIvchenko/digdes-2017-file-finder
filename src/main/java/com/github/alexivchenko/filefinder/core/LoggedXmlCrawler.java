@@ -10,22 +10,22 @@ import java.util.List;
 /**
  * @author Alex Ivchenko
  */
-public class LoggedFileCrawler implements FileCrawler {
-    private static final Logger log = LoggerFactory.getLogger(LoggedFileCrawler.class);
-    private final FileCrawler delegate;
+public class LoggedXmlCrawler implements XmlCrawler {
+    private static final Logger log = LoggerFactory.getLogger(LoggedXmlCrawler.class);
+    private final XmlCrawler delegate;
 
-    public LoggedFileCrawler(FileCrawler delegate) {
+    public LoggedXmlCrawler(XmlCrawler delegate) {
         this.delegate = delegate;
     }
 
     @Override
-    public List<DetectedURL> crawl(File file) throws ParseException {
+    public List<DetectedURL> crawl(File xml) throws ParseException {
         try {
-            List<DetectedURL> ret = delegate.crawl(file);
-            log.info("crawling file: " + file.getAbsolutePath() + " success");
+            List<DetectedURL> ret = delegate.crawl(xml);
+            log.info("crawling file: " + xml.getAbsolutePath() + " success");
             return ret;
         } catch (Exception e) {
-            log.error("crawling file: " + file.getAbsolutePath() + " failure", e);
+            log.error("crawling file: " + xml.getAbsolutePath() + " failure", e);
             throw e;
         }
     }
