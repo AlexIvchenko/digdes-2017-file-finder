@@ -18,9 +18,9 @@ public class LoggedZipCrawler implements ZipCrawler {
     }
 
     @Override
-    public List<DetectedURL> crawl(ZipFile zip) throws ParseException {
+    public List<DetectedString> crawl(ZipFile zip) throws ParseException {
         try {
-            List<DetectedURL> ret = delegate.crawl(zip);
+            List<DetectedString> ret = delegate.crawl(zip);
             log.info("crawling zip: " + zip.getName() + " success");
             return ret;
         } catch (Exception e) {

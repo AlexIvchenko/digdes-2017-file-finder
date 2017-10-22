@@ -7,5 +7,5 @@ import java.util.zip.ZipFile;
  * @author Alex Ivchenko
  */
 public interface ZipCrawler {
-    List<DetectedURL> crawl(ZipFile zip) throws ParseException;
+    List<DetectedString> crawl(ZipFile zip) throws ParseException;
 }

@@ -8,24 +8,24 @@ import java.util.List;
 /**
  * @author Alex Ivchenko
  */
-public class RobustFileCrawler implements FileCrawler {
-    private final FileCrawler delegate;
+public class RobustXmlCrawler implements XmlCrawler {
+    private final XmlCrawler delegate;
 
-    public RobustFileCrawler(FileCrawler delegate) {
+    public RobustXmlCrawler(XmlCrawler delegate) {
         this.delegate = delegate;
     }
 
     @Override
-    public List<DetectedURL> crawl(File file) {
+    public List<DetectedString> crawl(File xml) {
         try {
-            return delegate.crawl(file);
+            return delegate.crawl(xml);
         } catch (ParseException e) {
             return Collections.emptyList();
         }
     }
 
     @Override
-    public List<DetectedURL.FileStageBuilder> crawl(InputStream is) {
+    public List<DetectedString.FileStageBuilder> crawl(InputStream is) {
         try {
             return delegate.crawl(is);
         } catch (ParseException e) {

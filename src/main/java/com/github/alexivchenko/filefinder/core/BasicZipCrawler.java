@@ -13,14 +13,14 @@ import java.util.zip.ZipFile;
  * @author Alex Ivchenko
  */
 public class BasicZipCrawler implements ZipCrawler {
-    private final FileCrawler fileCrawler;
+    private final XmlCrawler xmlCrawler;
 
-    public BasicZipCrawler(FileCrawler fileCrawler) {
-        this.fileCrawler = fileCrawler;
+    public BasicZipCrawler(XmlCrawler xmlCrawler) {
+        this.xmlCrawler = xmlCrawler;
     }
 
     @Override
-    public List<DetectedURL> crawl(ZipFile zip) throws ParseException {
+    public List<DetectedString> crawl(ZipFile zip) throws ParseException {
         try {
             return doCrawl(zip);
         } catch (IOException e) {
@@ -28,20 +28,21 @@ public class BasicZipCrawler implements ZipCrawler {
         }
     }
 
-    private List<DetectedURL> doCrawl(ZipFile zip) throws IOException {
-        List<DetectedURL> urls = new ArrayList<>();
+    private List<DetectedString> doCrawl(ZipFile zip) throws IOException {
+        List<DetectedString> urls = new ArrayList<>();
         for (ZipEntry entry : zip.stream().collect(Collectors.toList())) {
             urls.addAll(crawlZipEntry(zip, entry));
         }
         return urls;
     }
 
-    private List<DetectedURL> crawlZipEntry(ZipFile zipFile, ZipEntry zipEntry) throws IOException {
+    private List<DetectedString> crawlZipEntry(ZipFile zipFile, ZipEntry zipEntry) throws IOException {
         if (!zipEntry.isDirectory()) {
             InputStream is = zipFile.getInputStream(zipEntry);
             String filename = zipEntry.getName();
+            // TODO invent something better
             if (filename.endsWith(".xml")) {
-                return (fileCrawler.crawl(is)
+                return (xmlCrawler.crawl(is)
                         .stream()
                         .map(fileStageBuilder -> fileStageBuilder.inZip(zipFile, filename))
                         .collect(Collectors.toList()));

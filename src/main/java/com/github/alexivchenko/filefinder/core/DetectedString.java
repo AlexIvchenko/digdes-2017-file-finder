@@ -9,7 +9,7 @@ import java.util.zip.ZipFile;
 /**
  * @author Alex Ivchenko
  */
-public final class DetectedURL {
+public final class DetectedString {
     private final String url;
     private final String zip;
     private final int line;
@@ -35,7 +35,7 @@ public final class DetectedURL {
         return absolutePath;
     }
 
-    private DetectedURL(String url, String zip, int line, String absolutePath) {
+    private DetectedString(String url, String zip, int line, String absolutePath) {
         this.url = url;
         this.zip = zip;
         this.line = line;
@@ -73,19 +73,19 @@ public final class DetectedURL {
         }
 
         @Override
-        public DetectedURL inZip(ZipFile zipFile, String pathInZip) {
+        public DetectedString inZip(ZipFile zipFile, String pathInZip) {
             Objects.requireNonNull(pathInZip, "path in zip must be not null");
             Objects.requireNonNull(zipFile, "zip file must be not null");
             this.zip = pathInZip;
-            return new DetectedURL(url, zip, line, zipFile.getName());
+            return new DetectedString(url, zip, line, zipFile.getName());
         }
 
         @Override
-        public DetectedURL inFile(File file) {
+        public DetectedString inFile(File file) {
             this.file = file;
             try {
                 String absolutePath = this.file.getCanonicalPath();
-                return new DetectedURL(url, zip, line, absolutePath);
+                return new DetectedString(url, zip, line, absolutePath);
             } catch (IOException e) {
                 throw new IllegalArgumentException("cannot get canonical path from file: " + file);
             }
@@ -101,7 +101,7 @@ public final class DetectedURL {
     }
 
     public interface FileStageBuilder {
-        DetectedURL inZip(ZipFile zip, String pathInZip);
-        DetectedURL inFile(File file);
+        DetectedString inZip(ZipFile zip, String pathInZip);
+        DetectedString inFile(File file);
     }
 }
